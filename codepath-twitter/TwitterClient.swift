@@ -63,6 +63,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         
     }
     
+    
     func homeTimeLine(success: ([Tweet]) -> (), failure: (NSError) -> ()){
         GET("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             
@@ -76,6 +77,25 @@ class TwitterClient: BDBOAuth1SessionManager {
                 
             failure(error)
         })
+    }
+    
+    func status_update(post: String, id: Int){
+        
+        var param = ["status" : post]
+        
+        if(id != -1){
+            
+            param = ["status" : post, "in_reply_to_status_id" : String(id)]
+        }
+        
+        POST("1.1/statuses/update.json", parameters: param, constructingBodyWithBlock: nil, progress:nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            
+                print("post success")
+            }) { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                
+                print(error.localizedDescription)
+        }
+        
     }
     func retweetThis(id: String){
         

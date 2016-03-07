@@ -12,6 +12,14 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
 
     var tweets : [Tweet]!
     
+    
+    @IBAction func ComposeScreen(sender: AnyObject) {
+        
+        performSegueWithIdentifier("composeSegue", sender:sender)
+    }
+    
+    
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func onLogoutButton(sender: AnyObject) {
@@ -24,6 +32,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.dataSource = self
         tableView.delegate = self
+        
         
         TwitterClient.sharedInstance.homeTimeLine({ (tweets: [Tweet]) -> () in
             
@@ -59,6 +68,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.rowHeight = UITableViewAutomaticDimension
         cell.name.text = tweet.tweetUser!["name"] as? String
         cell.screenname.text = tweet.tweetUser!["screen_name"] as? String
+        cell.screenname.text = "@" + cell.screenname.text!
         
         let formatter = NSDateFormatter()
         
@@ -66,26 +76,64 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         cell.timestamp.text = formatter.stringFromDate(tweet.timestamp!)
         
-        //print(tweet.timestamp!)
-    
-        //print(cell.screenname.text)
         cell.tweetID = tweet.id
         
-        //print(tweet.id)
+        cell.tweet = tweet
         
         cell.profileImage.setImageWithURL(NSURL(string: (tweet.tweetUser!["profile_image_url_https"] as? String)!)!)
+        
+        let tapGestureRecognizer = ProfileSegueRecognizer(target: self, action: Selector("imageTapped:"), user: tweet.tweetUserObj!)
+        
+        cell.profileImage.userInteractionEnabled = true
+        
+        cell.profileImage.addGestureRecognizer(tapGestureRecognizer)
         
         cell.tweetText.text = tweet.text as? String
         
         
         return cell
     }
+    
+    func imageTapped(sender: ProfileSegueRecognizer){
+        
+        performSegueWithIdentifier("profileSegue", sender: sender.user)
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let tweet = tweets[indexPath.row]
+        
+        performSegueWithIdentifier("showTweetDetails", sender: tweet)
+        
+    }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if(segue.identifier == "showTweetDetails"){
+            
+            let nextView = segue.destinationViewController as? TweetDetailsViewController
+        
+            let tweet = sender as! Tweet
+        
+            nextView!.tweet = tweet
+            
+        }
+        else if(segue.identifier == "profileSegue"){
+            
+            let nextView = segue.destinationViewController as? ProfileViewController
+            
+            let user = sender as! User
+            
+            nextView!.user = user
+            
+            
+        }
+        
+    }
     /*
     // MARK: - Navigation
 

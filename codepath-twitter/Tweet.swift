@@ -16,15 +16,17 @@ class Tweet: NSObject {
     var favoritesCount: Int = 0
     var id : String?
     var tweetUser : NSDictionary?
+    var tweetUserObj : User?
     
     init(dictionary: NSDictionary) {
         text = dictionary["text"] as? String
         
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
+        favoritesCount = (dictionary["favorite_count"] as? Int) ?? 0
         id = dictionary["id_str"] as? String
         tweetUser = dictionary["user"] as? NSDictionary
         
+        tweetUserObj = User(dictionary: dictionary["user"] as! NSDictionary)
         
         let timeStampString = dictionary["created_at"] as? String
         //print(timeStampString)

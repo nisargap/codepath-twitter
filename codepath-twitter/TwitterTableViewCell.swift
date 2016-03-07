@@ -19,11 +19,14 @@ class TwitterTableViewCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    var tweet : Tweet?
     
     @IBAction func favoriteButton(sender: AnyObject) {
         
         let client = TwitterClient.sharedInstance
         client.favoriteThis(self.tweetID!)
+        self.tweet?.favoritesCount++
+        
     }
     @IBAction func retweetButton(sender: AnyObject) {
         
@@ -31,13 +34,17 @@ class TwitterTableViewCell: UITableViewCell {
         
         client.retweetThis(self.tweetID!)
         
+        self.tweet?.retweetCount++
+        
     }
     var tweetID : String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
     }
+    
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
