@@ -14,9 +14,14 @@ class ComposeViewController: UIViewController {
     
     var id : String?
     
+
     @IBAction func composeAction(sender: AnyObject)
     {
-        TwitterClient.sharedInstance.status_update(self.tweetText.text, id: -1)
+        if (self.id == nil){
+            
+            self.id = "-1"
+        }
+        TwitterClient.sharedInstance.status_update(self.tweetText.text, id: self.id!)
         
         print("Tweet Sent!")
         

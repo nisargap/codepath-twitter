@@ -79,13 +79,13 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func status_update(post: String, id: Int){
+    func status_update(post: String, id: String){
         
         var param = ["status" : post]
         
-        if(id != -1){
+        if(id != "-1"){
             
-            param = ["status" : post, "in_reply_to_status_id" : String(id)]
+            param = ["status" : post, "in_reply_to_status_id" : id]
         }
         
         POST("1.1/statuses/update.json", parameters: param, constructingBodyWithBlock: nil, progress:nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
