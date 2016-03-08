@@ -75,7 +75,7 @@ The following **required** functionality is completed:
 - [X] Home Timeline: Tapping on a user image should bring up that user's profile page
 - [X] Compose Page: User can compose a new tweet by tapping on a compose button.
 
-The following **optional** features are implemented:
+The following **optional** features are implemented:<br>
 Note: I played a key role in organizing a 24 hour hacakthon this week called HackUMBC therefore I wasn't able to get to the optionals this time around.
 - [ ] When composing, you should have a countdown in the upper right for the tweet limit.
 - [ ] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
