@@ -34,20 +34,18 @@ class ProfileViewController: UIViewController {
         profileImage.setImageWithURL(profUrl!)
         
         let profBan = self.user?.profileBanUrl
-        backsplash.setImageWithURL(profBan!)
+        if let profBan = profBan {
+            backsplash.setImageWithURL(profBan)
+        }
         
         self.name.text = self.user?.name as? String
         self.screenname.text = user!.screenname as? String
+        self.tweets.text = String(self.user!.tweetsCount!)
+        self.following.text = String(self.user!.followingCount!)
+        self.followers.text = String(self.user!.followersCount!)
         
-        self.followers.text = self.user?.dictionary!["followers_count"] as? String
+        print(self.user!.tweetsCount!)
         
-        self.following.text = self.user?.dictionary!["friends_count"]
-            as? String
-        self.following.text = self.user?.dictionary!["friends_count"]
-            as? String
-        
-        self.tweets.text = self.user?.dictionary!["retweet_count"]
-        as? String
         // Do any additional setup after loading the view.
     }
 

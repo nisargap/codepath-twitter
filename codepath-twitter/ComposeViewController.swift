@@ -29,6 +29,10 @@ class ComposeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tweetText.layer.cornerRadius = 8.0
+        tweetText.layer.masksToBounds = true
+        tweetText.layer.borderColor = UIColor( red: 0, green: 0, blue: 0, alpha: 1.0 ).CGColor
+        tweetText.layer.borderWidth = 2.0
 
         // Do any additional setup after loading the view.
     }
